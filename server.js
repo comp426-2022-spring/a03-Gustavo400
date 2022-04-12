@@ -1,42 +1,26 @@
-// Require http module
-const http = require("http")
-// Require fs module
-const fs = require("fs")
-// Require minimist module (make sure you install this one via npm).
-// Use minimist to process one argument `--port=` on the command line after `node server.js`.
-const args = require("minimist")(process.argv.slice(2))
-// Define allowed argument name 'port'.
-args["port"]
-// Define a const `port` using the argument from the command line. 
-// Make this const default to port 3000 if there is no argument given for `--port`.
-const port = args.port || process.env.PORT || 3000
-// Use the fs module to create an arrow function using `fs.readFile`.
-// Use the documentation for the Node.js `fs` module. 
-// The function must read a file located at `./www/index.html` and do some stuff with it.
-// The stuff that should be inside this function is all below.
-fs.readFile('./www/index.html', 'utf8', (err, data) => {
-    // If there is an error, put it on the console error, return, and exit with error code 1. 
-    // Do not be nice about exiting.
-    if (err) {
-        console.error(err)
-        return
-        process.exit(1)
-    }
-    // Define a const `server` as an arrow function using http.createServer. 
-    // Use the documentation for the node.js http module. 
-    // The function should have three responses: 
-    // 1. status code 200, 
-    // 2. set a header with content type `text/html`, and 
-    // 3. end with the data that you are reading in from ./www/index.html.
-    const server = http.createServer((req, res) => {
-        res.statusCode = 200
-        res.setHeader('Content-Type', 'text/html')
-        res.end(data)
-    })
-    // Start the `server` const listening on the port defined by argument in your `port` const. 
-    // Put the exact message `Server listening on port ${port}` on the console log. 
-    server.listen(port, () => {
-        console.log(`Server listening on port ${port}`)
-    })
-    // That's it! You're all done!
-})
+// Require Express.js
+const express = require('express');
+const app = express();
+var argv = require('minimist')(process.argv.slice(2));
+console.log(argv);
+console.log(argv.port);
+
+// Start an app server
+let portNumber = argv.port ? parseInt(argv.port) : 5000;
+const server = app.listen(portNumber, () => {
+    console.log('App listening on port %PORT%'.replace('%PORT%',portNumber))
+});
+
+app.get('/app/', (req, res) => {
+    // Respond with status 200
+        res.statusCode = 200;
+    // Respond with status message "OK"
+        res.statusMessage = 'OK';
+        res.writeHead( res.statusCode, { 'Content-Type' : 'text/plain' });
+        res.end(res.statusCode+ ' ' +res.statusMessage)
+});
+
+// Default response for any other request
+app.use(function(req, res){
+    res.status(404).send('404 NOT FOUND')
+});
