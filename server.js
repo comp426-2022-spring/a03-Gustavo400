@@ -12,8 +12,21 @@ const server = app.listen(portNumber, () => {
     console.log('App listening on port %PORT%'.replace('%PORT%',portNumber))
 });
 
-app.get('/flip/', (req, res) => {
+//One flip
+app.get('/app/flip/', (req, res) => {
     const result = {"flip" : coin.coinFlip()};
+    res.statusCode = 200;
+    res.statusMessage = 'OK';
+    res.set({"Content-Type": "text/json"});
+    res.json(result);
+});
+
+//Multiple flips
+app.get('/app/flips/:number', (req, res) => {
+    const numberOfFlips = parseInt(req.params.number);
+    const raw = coin.coinFlips(numberOfFlips);
+    const summary = coin.countFlips(raw);
+    const result = {"raw" : raw, "summary" : summary};
     res.statusCode = 200;
     res.statusMessage = 'OK';
     res.set({"Content-Type": "text/json"});
