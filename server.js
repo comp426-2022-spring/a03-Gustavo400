@@ -33,6 +33,16 @@ app.get('/app/flips/:number', (req, res) => {
     res.json(result);
 });
 
+//Call and flip
+app.get('/app/flip/call/:call', (req, res) => {
+    const call = req.params.call;
+    const result = coin.flipACoin(call);
+    res.statusCode = 200;
+    res.statusMessage = 'OK';
+    res.set({"Content-Type": "text/json"});
+    res.json(result);
+});
+
 app.get('/app/', (req, res) => {
     // Respond with status 200
         res.statusCode = 200;
