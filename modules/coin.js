@@ -101,8 +101,8 @@ function flipACoin(call) {
 }
 
 
-/** Export 
- * 
- * Export all of your named functions
-*/
-export { coinFlip, coinFlips, countFlips, flipACoin };
+// /** Export 
+//  * 
+//  * Export all of your named functions
+// */
+// export { coinFlip, coinFlips, countFlips, flipACoin };
