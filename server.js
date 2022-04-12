@@ -13,10 +13,10 @@ const server = app.listen(portNumber, () => {
 });
 
 app.get('/flip/', (req, res) => {
+    const result = {"flip" : coin.coinFlip()};
     res.statusCode = 200;
     res.statusMessage = 'OK';
     res.set({"Content-Type": "text/json"});
-    const result = {"flip" : coin.coinFlip()};
     res.json(result);
 });
 
